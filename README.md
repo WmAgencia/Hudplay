@@ -47,9 +47,7 @@ Hudplay/
 ├── packages/
 │   └── api/            # Tipos/DTOs compartilhados entre web, android e backend
 ├── backend/            # API Fastify (regras de negócio)
-├── database/
-│   ├── migrations/     # SQL versionado (001_*.sql, ...)
-│   └── seeds/          # Seed de demonstração (Hudplay)
+│   └── migrations/     # SQL versionado (001_*.sql, ...)
 ├── docs/               # Documentação técnica
 ├── scripts/            # Scripts utilitários (build, apk, helpers)
 └── .env.example        # Variáveis documentadas (sem secrets)

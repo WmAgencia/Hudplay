@@ -1,6 +1,6 @@
 # Banco de Dados
 
-PostgreSQL. Migrations versionadas em `database/migrations/` (SQL puro), aplicadas em
+PostgreSQL. Migrations versionadas em `backend/migrations/` (SQL puro), aplicadas em
 ordem crescente pelo runner do backend.
 
 ## Entidades

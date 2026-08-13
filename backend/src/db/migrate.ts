@@ -5,7 +5,7 @@ import { logger } from '../lib/logger.js';
 import { pool } from './pool.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const MIGRATIONS_DIR = join(__dirname, '..', '..', '..', 'database', 'migrations');
+const MIGRATIONS_DIR = join(__dirname, '..', '..', 'migrations');
 
 export async function runMigrations(): Promise<void> {
   await pool.query(`
