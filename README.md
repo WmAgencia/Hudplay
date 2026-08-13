@@ -98,6 +98,29 @@ npm run typecheck
 npm run build
 ```
 
+### Aplicativo Android (APK)
+
+O scaffold Capacitor já existe em `apps/android`. Para gerar o APK é preciso:
+
+1. **JDK 21** instalado (ex.: Temurin 21) e `JAVA_HOME` apontando para ele.
+2. **Android SDK** com build-tools e platform (já presente em `C:\Android` neste ambiente).
+3. Espaço em disco suficiente (Gradle baixa dependências; ~2–3 GB livres recomendados).
+
+```bash
+# 1) build do web (gera o bundle que o Capacitor empacota)
+npm run build --workspace apps/web
+
+# 2) sincroniza o bundle + plugins para o projeto Android
+npm run sync --workspace apps/android
+
+# 3) gera o APK de debug (sem assinatura de produção)
+npm run build:apk --workspace apps/android
+# saída: apps/android/android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+Para **produção** (apk assinado), configure um keystore e ajuste `signingConfigs`
+em `apps/android/android/app/build.gradle`. Detalhes em `docs/MOBILE.md`.
+
 ## Deploy
 
 - Backend: Railway (config via `nixpacks.toml` ou painel). Precisa de `DATABASE_URL`,

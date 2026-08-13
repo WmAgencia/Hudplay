@@ -4,7 +4,7 @@
   "private": true,
   "description": "Sistema completo de gestão de quadras esportivas — Web + APK Android",
   "type": "module",
-  "workspaces": ["apps/web", "packages/api", "backend"],
+  "workspaces": ["apps/web", "apps/android", "packages/api", "backend"],
   "engines": {
     "node": ">=20.0.0"
   },
