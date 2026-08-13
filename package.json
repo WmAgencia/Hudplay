@@ -1,0 +1,24 @@
+{
+  "name": "hudplay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema completo de gestão de quadras esportivas — Web + APK Android",
+  "type": "module",
+  "workspaces": ["apps/web", "packages/api", "backend"],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev:web": "npm run dev --workspace apps/web",
+    "dev:backend": "npm run dev --workspace backend",
+    "build": "npm run build --workspace apps/web && npm run build --workspace backend",
+    "typecheck": "npm run typecheck --workspace apps/web && npm run typecheck --workspace backend",
+    "lint": "npm run lint --workspace apps/web && npm run lint --workspace backend",
+    "test": "npm run test --workspace backend && npm run test --workspace apps/web",
+    "db:migrate": "npm run db:migrate --workspace backend",
+    "db:seed": "npm run db:seed --workspace backend"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true
+  }
+}
