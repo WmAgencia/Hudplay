@@ -1,3 +1,4 @@
+import { RequireAuth } from '@/components/auth/RequireAuth';
 import { AdminLayout } from '@/components/layout/AdminLayout';
 import { ToastProvider } from '@/components/ui/Toast';
 import { CalendarPage } from '@/pages/admin/CalendarPage';
@@ -19,15 +20,17 @@ export function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/admin" replace />} />
         <Route path="/admin/login" element={<LoginPage />} />
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="calendario" element={<CalendarPage />} />
-          <Route path="partidas" element={<MatchesPage />} />
-          <Route path="quadras" element={<CourtsPage />} />
-          <Route path="jogadores" element={<PlayersPage />} />
-          <Route path="pagamentos" element={<PaymentsPage />} />
-          <Route path="relatorios" element={<ReportsPage />} />
-          <Route path="config" element={<SettingsPage />} />
+        <Route path="/admin" element={<RequireAuth />}>
+          <Route element={<AdminLayout />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="calendario" element={<CalendarPage />} />
+            <Route path="partidas" element={<MatchesPage />} />
+            <Route path="quadras" element={<CourtsPage />} />
+            <Route path="jogadores" element={<PlayersPage />} />
+            <Route path="pagamentos" element={<PaymentsPage />} />
+            <Route path="relatorios" element={<ReportsPage />} />
+            <Route path="config" element={<SettingsPage />} />
+          </Route>
         </Route>
         <Route path="/partida/:code" element={<MatchPage />} />
         <Route path="/jogador/:id" element={<PlayerProfilePage />} />

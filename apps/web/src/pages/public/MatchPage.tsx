@@ -134,7 +134,10 @@ export function MatchPage() {
     if (!paymentId) return;
     setClaimLoading(true);
     try {
-      await api(`/api/player/payments/${paymentId}/claim-paid`, { method: 'POST' });
+      await api(`/api/player/payments/${paymentId}/claim-paid`, {
+        method: 'POST',
+        scope: 'player',
+      });
       toast('Pagamento informado! O organizador vai confirmar em breve.', 'info');
       setJoined((j) =>
         j && j.kind === 'joined' && j.payment
@@ -150,7 +153,7 @@ export function MatchPage() {
 
   const leave = async () => {
     try {
-      await api(`/api/player/matches/${code}/leave`, { method: 'POST' });
+      await api(`/api/player/matches/${code}/leave`, { method: 'POST', scope: 'player' });
       setJoined(null);
       toast('Você saiu da partida');
       void load();

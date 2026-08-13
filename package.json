@@ -4,7 +4,12 @@
   "private": true,
   "description": "Sistema completo de gestão de quadras esportivas — Web + APK Android",
   "type": "module",
-  "workspaces": ["apps/web", "apps/android", "packages/api", "backend"],
+  "workspaces": [
+    "apps/web",
+    "apps/android",
+    "packages/api",
+    "backend"
+  ],
   "engines": {
     "node": ">=20.0.0"
   },
@@ -22,5 +27,13 @@
     "esbuild": true,
     "argon2": true,
     "@biomejs/biome": true
+  },
+  "devDependencies": {
+    "embedded-postgres": "^17.10.0-beta.17",
+    "@embedded-postgres/windows-x64": "^17.10.0-beta.17"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.62.4",
+    "@esbuild/linux-x64": "^0.21.5"
   }
 }

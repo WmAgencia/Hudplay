@@ -64,13 +64,13 @@ export function PlayerProfilePage() {
         return;
       }
       try {
-        const me = await api<{ user: PlayerUser | null }>('/api/player/me');
+        const me = await api<{ user: PlayerUser | null }>('/api/player/me', { scope: 'player' });
         if (!me.user) {
           setNeedsLogin(true);
         } else {
           setUser(me.user);
           const [m, n] = await Promise.all([
-            api<{ matches: MyMatch[] }>('/api/player/me/matches'),
+            api<{ matches: MyMatch[] }>('/api/player/me/matches', { scope: 'player' }),
             api<{
               notifications: Array<{
                 id: string;
@@ -79,7 +79,7 @@ export function PlayerProfilePage() {
                 created_at: string;
                 read: boolean;
               }>;
-            }>('/api/player/me/notifications'),
+            }>('/api/player/me/notifications', { scope: 'player' }),
           ]);
           setMatches(m.matches);
           setNotifications(n.notifications);
@@ -317,7 +317,7 @@ function LoginView({ onSuccess }: { onSuccess: (u: PlayerUser) => void }) {
         },
       );
       setTokens(res.accessToken, res.refreshToken);
-      const me = await api<{ user: PlayerUser | null }>('/api/player/me');
+      const me = await api<{ user: PlayerUser | null }>('/api/player/me', { scope: 'player' });
       if (me.user) onSuccess(me.user);
       else navigate('/');
     } catch (err) {

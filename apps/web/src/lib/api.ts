@@ -42,10 +42,13 @@ export class ApiError extends Error {
   }
 }
 
-async function refreshTokens(): Promise<boolean> {
+export type ApiScope = 'admin' | 'player';
+
+async function refreshTokens(scope: ApiScope = 'admin'): Promise<boolean> {
   const refresh = getRefreshToken();
   if (!refresh) return false;
-  const res = await fetch(`${API_URL}/api/auth/refresh`, {
+  const endpoint = scope === 'player' ? '/api/player/auth/refresh' : '/api/auth/refresh';
+  const res = await fetch(`${API_URL}${endpoint}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ refreshToken: refresh }),
@@ -64,9 +67,11 @@ export interface RequestOptions {
   body?: unknown;
   headers?: Record<string, string>;
   auth?: boolean;
+  scope?: ApiScope;
 }
 
 export async function api<T = unknown>(path: string, options: RequestOptions = {}): Promise<T> {
+  const scope = options.scope ?? 'admin';
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...options.headers,
@@ -86,10 +91,15 @@ export async function api<T = unknown>(path: string, options: RequestOptions = {
   let res = await doFetch();
 
   if (res.status === 401 && options.auth !== false) {
-    const ok = await refreshTokens();
+    const ok = await refreshTokens(scope);
     if (ok) {
       headers.Authorization = `Bearer ${getAccessToken()}`;
       res = await doFetch();
+    } else if (scope === 'admin') {
+      clearTokens();
+      if (window.location.pathname.startsWith('/admin')) {
+        window.location.href = '/admin/login';
+      }
     }
   }
 

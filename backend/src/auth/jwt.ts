@@ -35,6 +35,10 @@ function parseTtl(ttl: string): number {
   }
 }
 
+function ttlToTimestamp(ttl: string): number {
+  return Math.floor(Date.now() / 1000) + parseTtl(ttl);
+}
+
 export async function signAccessToken(payload: {
   sub: string;
   scope: 'admin' | 'player';
@@ -46,7 +50,7 @@ export async function signAccessToken(payload: {
     .setIssuedAt()
     .setIssuer('hudplay')
     .setAudience('hudplay-client')
-    .setExpirationTime(parseTtl(env.JWT_ACCESS_TTL))
+    .setExpirationTime(ttlToTimestamp(env.JWT_ACCESS_TTL))
     .sign(new TextEncoder().encode(env.JWT_ACCESS_SECRET));
 }
 
@@ -61,7 +65,7 @@ export async function signRefreshToken(
     .setIssuedAt()
     .setIssuer('hudplay')
     .setAudience('hudplay-client')
-    .setExpirationTime(parseTtl(env.JWT_REFRESH_TTL))
+    .setExpirationTime(ttlToTimestamp(env.JWT_REFRESH_TTL))
     .sign(new TextEncoder().encode(env.JWT_REFRESH_SECRET));
 }
 
