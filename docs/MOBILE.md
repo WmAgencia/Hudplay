@@ -44,6 +44,20 @@ npm run build:apk --workspace apps/android
 # apps/android/android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
+### APK via CI (GitHub Actions)
+
+O repositório tem o workflow `.github/workflows/android-apk.yml` que gera o APK na
+nuvem (sem precisar de JDK/Android SDK locais):
+
+1. Faça push na branch `main` (o workflow roda em pushes que tocam `apps/web`,
+   `apps/android`, `packages/api` ou a raiz).
+2. Ou rode manualmente em **Actions → Build APK Android → Run workflow**.
+3. No final do job, baixe o artefato **`hudplay-apk`** (contém `app-debug.apk` e
+   `app-release-unsigned.apk`).
+
+O `app-debug.apk` é instalável direto no celular (não precisa de assinatura). Para
+produção, assine o release com um keystore (abaixo).
+
 ### APK de produção (assinado)
 
 1. Gere um keystore (guarde em local seguro, **nunca commite**):

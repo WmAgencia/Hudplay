@@ -19,6 +19,8 @@
     "db:seed": "npm run db:seed --workspace backend"
   },
   "allowScripts": {
-    "esbuild@0.25.12": true
+    "esbuild": true,
+    "argon2": true,
+    "@biomejs/biome": true
   }
 }
