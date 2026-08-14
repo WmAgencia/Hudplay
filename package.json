@@ -28,11 +28,9 @@
     "argon2": true,
     "@biomejs/biome": true
   },
-  "devDependencies": {
-    "embedded-postgres": "^17.10.0-beta.17",
-    "@embedded-postgres/windows-x64": "^17.10.0-beta.17"
-  },
   "optionalDependencies": {
+    "embedded-postgres": "^17.10.0-beta.17",
+    "@embedded-postgres/windows-x64": "^17.10.0-beta.17",
     "@rollup/rollup-linux-x64-gnu": "^4.62.4",
     "@esbuild/linux-x64": "^0.21.5"
   }
