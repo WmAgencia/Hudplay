@@ -3,6 +3,7 @@ import rateLimit from '@fastify/rate-limit';
 import Fastify from 'fastify';
 import { allowedOrigins, env } from './config/env.js';
 import { runMigrations } from './db/migrate.js';
+import { seed } from './db/seed.js';
 import { logger } from './lib/logger.js';
 import { errorHandler } from './middleware/error-handler.js';
 
@@ -18,9 +19,12 @@ import { reportsRoutes } from './routes/reports.routes.js';
 import { settingsRoutes } from './routes/settings.routes.js';
 import { sportsRoutes } from './routes/sports.routes.js';
 
-export async function buildApp(opts: { autoMigrate?: boolean } = {}): Promise<ReturnType<typeof Fastify>> {
+export async function buildApp(opts: { autoMigrate?: boolean; autoSeed?: boolean } = {}): Promise<ReturnType<typeof Fastify>> {
   if (opts.autoMigrate) {
     await runMigrations();
+    if (opts.autoSeed) {
+      await seed();
+    }
   }
 
   const app = Fastify({
@@ -66,7 +70,7 @@ const isDirectRun =
   process.argv[1] && (process.argv[1].endsWith('server.ts') || process.argv[1].endsWith('server.js'));
 
 if (isDirectRun) {
-  const app = await buildApp({ autoMigrate: true });
+  const app = await buildApp({ autoMigrate: true, autoSeed: true });
   app.listen({ port: env.PORT, host: env.HOST }, (err: Error | null) => {
     if (err) {
       logger.error(err, 'Falha ao iniciar servidor');
