@@ -47,17 +47,29 @@ jobs:
       - name: Build APK debug
         run: |
           cd apps/android/android
-          ./gradlew --no-daemon assembleDebug
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug --stacktrace 2>&1 | tee build-debug.log
+          exit ${PIPESTATUS[0]}
         env:
           ANDROID_HOME: ${{ env.ANDROID_HOME }}
 
       - name: Build APK release (não assinado)
         run: |
           cd apps/android/android
-          ./gradlew --no-daemon assembleRelease
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease --stacktrace 2>&1 | tee build-release.log
+          exit ${PIPESTATUS[0]}
         continue-on-error: true
         env:
           ANDROID_HOME: ${{ env.ANDROID_HOME }}
+
+      - name: Upload log de diagnóstico (se falhou)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hudplay-gradle-logs
+          path: apps/android/android/build-*.log
+          if-no-files-found: ignore
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
